@@ -9,7 +9,28 @@ const useWordle = (solution) => {
 
     // format a guess into an array of letter objects
     const formatGuess = () => {
-        console.log(`Formatting guess- ${currentGuess}`)
+        let solutionArray = [...solution]        
+        let formattedGuess = [...currentGuess].map((letter)=>{
+            return {key:letter, color: "grey"}
+        })
+
+        // find green letters
+        formattedGuess.forEach((letter, i) => {
+            if(solutionArray[i] === letter.key){
+                formattedGuess[i].color = "green"
+                solutionArray[i] = null
+            }
+        })
+
+        // find yellow letters
+        formattedGuess.forEach((letter, i) => {
+            if(solutionArray.includes(letter.key) && letter.color !== "green"){
+                formattedGuess[i].color = "yellow"
+                solutionArray[solutionArray.indexOf(letter.key)] = null
+            }
+        })
+
+        return formattedGuess
     }
 
     //add a new guess to the guesses state (guess history)
@@ -33,7 +54,8 @@ const useWordle = (solution) => {
                 return
             }
 
-            formatGuess()
+            const formatted = formatGuess()
+            console.log(formatted)
         }
 
         if(key === 'Backspace'){

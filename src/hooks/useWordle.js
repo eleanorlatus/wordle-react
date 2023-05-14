@@ -2,10 +2,10 @@ import {useState} from 'react'
 
 const useWordle = (solution) => {
     const [turn, setTurn] = useState(0) 
-    const [guesses, setGuesses] = useState([]) // each guess is an array
+    const [currentGuess, setCurrentGuess] = useState('')
+    const [guesses, setGuesses] = useState([...Array(6)]) // each guess is an array
     const [history, setHistory] = useState([]) // each guess is a string
     const [isCorrect, setIsCorrect] = useState(false)
-    const [currentGuess, setCurrentGuess] = useState('')
 
     // format a guess into an array of letter objects
     const formatGuess = () => {
@@ -34,8 +34,22 @@ const useWordle = (solution) => {
     }
 
     //add a new guess to the guesses state (guess history)
-    const addNewGuess = () => {
-
+    const addNewGuess = (formattedGuess) => {
+        if (currentGuess === solution){
+            setIsCorrect(true)
+        }
+        setGuesses((prevGuesses) => {
+            let newGuesses = [...prevGuesses]
+            newGuesses[turn] = formattedGuess
+            return newGuesses
+        })
+        setHistory((prevHistory) =>{
+            return [...prevHistory, currentGuess]
+        })
+        setTurn((prevTurn) =>{
+            return prevTurn + 1
+        })
+        setCurrentGuess('')
     }
 
     //track typing and submit guess
@@ -55,7 +69,7 @@ const useWordle = (solution) => {
             }
 
             const formatted = formatGuess()
-            console.log(formatted)
+            addNewGuess(formatted)
         }
 
         if(key === 'Backspace'){

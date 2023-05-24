@@ -25,7 +25,6 @@ export default function Wordle( { solution }) {
 
   return (
     <>
-    {console.log(`Solution: ${solution}`)}
     <Grid currentGuess = {currentGuess} guesses={guesses} turn={turn}/>
     <Keypad usedKeys = {usedKeys}/>
     {showModal && <Modal isCorrect={isCorrect} turn={turn} solution={solution}/>}

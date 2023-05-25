@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import Wordle from "./components/Wordle"
+import Header from "./components/Header"
 
 function App() {
   const [solution, setSolution] = useState(null)
+  const [theme, setTheme] = useState('light');
 
     useEffect(() => {
       fetch('https://wordle-api.cyclic.app/words')
@@ -16,8 +18,8 @@ function App() {
     }, [setSolution])
 
   return (
-    <div className="App">
-      <h1>Wordle</h1>
+    <div className={`App ${theme}`}>
+      <Header theme={theme} setTheme={setTheme} />
       {solution && <Wordle solution= {solution} />}
     </div>
   );

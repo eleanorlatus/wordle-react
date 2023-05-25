@@ -1,8 +1,9 @@
-body {
+body{
   text-align: center;
   font-size: 1em;
   font-family: verdana;
   margin: 0;
+  padding:0;
 }
 h1 {
   font-size: 2em;
@@ -30,18 +31,27 @@ h1 {
   font-size: 2.5em;
 }
 .row > div.green {
+  border-color: #333;
   --background: #7ec77e;
-  --border-color: #7ec77e;
+  --border-color-before: #333;
+  --border-color-after: #7ec77e;
+  --flip-color: #fff;
   animation: flip 0.7s ease forwards;
 }
 .row > div.grey {
+  border-color: #333;
   --background: #a1a1a1;
-  --border-color: #a1a1a1;
+  --border-color-before: #333;
+  --border-color-after: #a1a1a1;
+  --flip-color: #fff;
   animation: flip 0.7s ease forwards;
 }
 .row > div.yellow {
+  border-color: #333;
   --background: #e2cc68;
-  --border-color: #e2cc68;
+  --border-color-before: #333;
+  --border-color-after: #e2cc68;
+  --flip-color: #fff;
   animation: flip 0.7s ease forwards;
 }
 .row > div:nth-child(2) {
@@ -57,6 +67,8 @@ h1 {
   animation-delay: 1.6s;
 }
 .row.current > div.filled{
+  --border-color-before: #ddd;
+  --border-color-after: #333;
   animation: bounce 0.2s ease-in-out forwards;
 }
 /* modal */
@@ -97,6 +109,41 @@ h1 {
   border-radius: 6px;
   line-height: 50px;
 }
+
+/* dark mode */
+.dark{
+  color: #c8c8c8;
+  background-color: rgb(19, 19, 19);
+}
+.dark h1 {
+  color: #c8c8c8;
+  border-bottom: 1px solid #2f2f2f;
+}
+/* modal */
+.dark .modal {
+  background: rgb(19, 19, 19,0.7);
+}
+.dark .modal div {
+  background: rgb(43, 43, 43);
+}
+.dark .row > div {
+  border: 1px solid rgb(43, 43, 43);
+}
+/* rows */
+.dark .row > div.green, .dark .row > div.grey, .dark .row > div.yellow{
+  border-color: #ddd;
+  --flip-color: rgb(19, 19, 19);
+  --border-color-before: #ddd;
+}
+.dark .row.current > div.filled{
+  --border-color-before: rgb(43, 43, 43);
+  --border-color-after: #ddd;
+}
+/* keypad */
+.dark .keypad > div {
+  background: rgb(43, 43, 43);
+}
+
 .keypad > div.green {
   background: #7ec77e;
   color: #393939;
@@ -113,40 +160,41 @@ h1 {
   transition: all 0.3s ease-in;
 }
 
-/* keyframe animations */
-@keyframes flip {
-  0% {
-    transform: rotateX(0);
-    background: #fff;
-    border-color: #333;
-  }
-  45% {
-    transform: rotateX(90deg);
-    background: white;
-    border-color: #333;
-  }
-  55% {
-    transform: rotateX(90deg);
-    background: var(--background);
-    border-color: var(--border-color);
-  }
-  100% {
-    transform: rotateX(0deg);
-    background: var(--background);
-    border-color: var(--border-color);
-    color: #393939;
-  }
-}
+  /* keyframe animations */
 @keyframes bounce{
   0%{
     transform: scale(1);
-    border-color: #ddd
+    border-color: var(--border-color-before)
   }
   50%{
     transform: scale(1.2);
   }
   100%{
     transform: scale(1);
-    border-color: #333
+    border-color: var(--border-color-after)
+  }
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateX(0);
+    background: var(--flip-color);
+    border-color: var(--border-color-before);
+  }
+  45% {
+    transform: rotateX(90deg);
+    background: var(--flip-color);
+    border-color: var(--border-color-before);
+  }
+  55% {
+    transform: rotateX(90deg);
+    background: var(--background);
+    border-color: var(--border-color-after);
+  }
+  100% {
+    transform: rotateX(0deg);
+    background: var(--background);
+    border-color: var(--border-color-after);
+    color: #393939;
   }
 }

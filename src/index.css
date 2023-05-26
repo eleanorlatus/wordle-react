@@ -7,10 +7,14 @@ body{
 }
 h1 {
   font-size: 2em;
-  padding: 10px 0;
+  padding: 10px 0 5px 0;
   border-bottom: 1px solid #eee;
   margin: 0 0 10px 0;
   color: #333;
+}
+#error{
+  color: rgb(205, 6, 6);
+  padding-bottom: 5px;
 }
 /* rows */
 .row {

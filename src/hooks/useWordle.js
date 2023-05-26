@@ -80,11 +80,17 @@ const useWordle = (solution) => {
                 return
             }
             if(history.includes(currentGuess)){
-                console.log("You've already guessed this word!")
+                document.querySelector('#error').innerText = "You've already guessed this word!"
+                setTimeout(function(){
+                    document.querySelector("#error").innerHTML = '';
+                }, 2500);
                 return
             }
             if(currentGuess.length !== 5){
-                console.log("Word must be 5 letters long")
+                document.querySelector('#error').innerText = "Word must be 5 letters long"
+                setTimeout(function(){
+                    document.querySelector("#error").innerHTML = '';
+                }, 2500);
                 return
             }
 

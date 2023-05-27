@@ -1,6 +1,6 @@
 import {useState} from 'react'
 
-const useWordle = (solution) => {
+const useWordle = (solution, validWords) => {
     const [turn, setTurn] = useState(0) 
     const [currentGuess, setCurrentGuess] = useState('')
     const [guesses, setGuesses] = useState([...Array(6)]) // each guess is an array
@@ -75,6 +75,7 @@ const useWordle = (solution) => {
     //track typing and submit guess
     const handleKeyUp = ({ key }) => {
         if(key === 'Enter'){
+
             if(turn > 5){
                 console.log("You've used all your guesses!")
                 return
@@ -88,6 +89,14 @@ const useWordle = (solution) => {
             }
             if(currentGuess.length !== 5){
                 document.querySelector('#error').innerText = "Word must be 5 letters long"
+                setTimeout(function(){
+                    document.querySelector("#error").innerHTML = '';
+                }, 2500);
+                return
+            }
+
+            if (validWords.findIndex((e => e.word === currentGuess)) === -1){
+                document.querySelector('#error').innerText = "Invalid word"
                 setTimeout(function(){
                     document.querySelector("#error").innerHTML = '';
                 }, 2500);

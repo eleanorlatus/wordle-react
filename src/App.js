@@ -4,6 +4,7 @@ import Header from "./components/Header"
 
 function App() {
   const [solution, setSolution] = useState(null)
+  const [validWords, setValidWords] = useState(null)
   const [theme, setTheme] = useState('light');
 
     useEffect(() => {
@@ -13,14 +14,15 @@ function App() {
           //random int between 0 & 14
           const randomSolution = json[Math.floor(Math.random() * json.length)]
           setSolution(randomSolution.word)
+          setValidWords(json)
           console.log(`Solution: ${randomSolution.word}`)
         })
-    }, [setSolution])
+    }, [setSolution, setValidWords])
 
   return (
     <div className={`App ${theme}`}>
       <Header theme={theme} setTheme={setTheme} />
-      {solution && <Wordle solution= {solution} />}
+      {solution && <Wordle solution= {solution} validWords = {validWords} />}
     </div>
   );
 }

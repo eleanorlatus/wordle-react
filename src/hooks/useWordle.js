@@ -75,11 +75,11 @@ const useWordle = (solution, validWords) => {
     //track typing and submit guess
     const handleKeyUp = ({ key }) => {
         if(key === 'Enter'){
-
             if(turn > 5){
                 console.log("You've used all your guesses!")
                 return
             }
+
             if(history.includes(currentGuess)){
                 document.querySelector('#error').innerText = "You've already guessed this word!"
                 setTimeout(function(){
@@ -87,6 +87,7 @@ const useWordle = (solution, validWords) => {
                 }, 2500);
                 return
             }
+
             if(currentGuess.length !== 5){
                 document.querySelector('#error').innerText = "Word must be 5 letters long"
                 setTimeout(function(){
@@ -94,17 +95,23 @@ const useWordle = (solution, validWords) => {
                 }, 2500);
                 return
             }
-
-            if (validWords.findIndex((e => e.word === currentGuess)) === -1){
-                document.querySelector('#error').innerText = "Invalid word"
-                setTimeout(function(){
-                    document.querySelector("#error").innerHTML = '';
-                }, 2500);
-                return
-            }
-
-            const formatted = formatGuess()
-            addNewGuess(formatted)
+            
+            //check if currentGuess is a real word using dictionary API
+            const resultChecker = async () => {
+                const result = await invalidResult(currentGuess)
+                if(result){
+                    document.querySelector('#error').innerText = "Invalid word, try a different word"
+                    setTimeout(function(){
+                        document.querySelector("#error").innerHTML = '';
+                    }, 2500);
+                }else{
+                    const formatted = formatGuess()
+                addNewGuess(formatted)
+                }
+              }
+                
+              resultChecker()
+            
         }
 
         if(key === 'Backspace'){
@@ -120,6 +127,15 @@ const useWordle = (solution, validWords) => {
                     return prev + key
                 })
             }
+        }
+    }
+
+    // check for valid guess
+    async function invalidResult(currentGuess) {
+        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${currentGuess}`, {});
+        const json = await response.json();
+        if(json.title === "No Definitions Found"){
+            return true
         }
     }
 

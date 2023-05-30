@@ -37,8 +37,6 @@ Please make sure to update tests as appropriate.
 
 For optimisations, I want to focus on making the game mobile-friendly and allowing users to type directly into the boxes.
 
-I also want to add a dark mode colour scheme and a toggle button.
-
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
